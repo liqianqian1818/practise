@@ -1,12 +1,16 @@
-const a = 0, b = 1;
+// const a = 1;
 // if (true) {
-//     const c = '123';
+//     var c = '123';
+// }
+const art = {}
+// for(var i= 0; i<art.lenght; i++){
+//     var g = 7
 // }
 function fn1() {
-    const d = 1
+    // const d = 1
 }
+// console.log(c)
 // const e = 3
-
 /**
  // =======output=======
  // a

@@ -1,7 +1,7 @@
 module.exports = class Scope{
     constructor(options={}) {
         this.names = []
-        this.parent = options.parent
+        this.parent = options.parent || null
     }
     add(name){
          this.names.push(name)
