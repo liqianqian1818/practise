@@ -17,9 +17,7 @@ describe('analyze',() => {
                 }
             }
             for(let i = 0; i<8;i++){
-                const h = () => {
-                    const ww = 10
-                }
+                const ww = 8
             }
         `
         const ast = acorn.parse(code,{ecmaVersion:'7'})
