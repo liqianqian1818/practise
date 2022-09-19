@@ -1,67 +1,103 @@
-import { createApp } from '../src/index'
+import {createApp} from '../src/index'
+// import { reactive } from '../src/reactive';
 
-describe('createApp',()=>{
-    test('run createApp() should renturn App instance',()=>{
-        const app = createApp()
-        // app 是个object， 里面有一个mount方法
+describe('createApp should work', () => {
+    const div = document.createElement('div')
+    div.id = 'app'
+    document.body.appendChild(div)
+    test('run createApp() should return App instance', () => {
+        const app = createApp({})
         expect(typeof app).toBe('object')
-        ecpect(typeof app.mount).toBe('function')
-    })
+        expect(typeof app.mount).toBe('function')
+    });
 
-    test('this 指向',()=>{
+    test('mount() should render text node to host', () => {
         const div = document.createElement('div')
         createApp({
-            data(){
+            data() {
                 return {
                     title: 'hello'
                 }
             },
-            render(){
+            render() {
                 const el = document.createElement('div')
                 el.innerText = this.title
                 return el
             }
         }).mount(div)
-        console.log('*****',div.childNodes[0].innerText)
         expect(div.childNodes[0].innerText).toBe('hello')
+    });
 
-    })
-    test('el = #app',()=>{
-        // const div = document.createElement('div')
-        // div.id = 'app'
-        // document.body.appendChild(div)
+    test('mount() can receive a selector ', () => {
         createApp({
-            data(){
+            data() {
                 return {
                     title: 'hello'
                 }
-            },
-            render(){
+            } ,
+            render() {
                 const el = document.createElement('div')
                 el.innerText = this.title
                 return el
             }
         }).mount('#app')
-        // console.log('*****',div.childNodes[0].innerText)
-        expect(div.childNodes[0].innerText).toBe('hello')
-    })
-    test('setup',()=>{
-        // const div = document.createElement('div')
-        // div.id = 'app'
-        // document.body.appendChild(div)
+
+        expect(document.body.children[0].id).toBe('app')
+    });
+
+    test('should support setup option', () => {
         createApp({
-            setup(){
+            setup() {
                 return {
                     title: 'hello'
                 }
             },
-            render(){
+            render() {
                 const el = document.createElement('div')
                 el.innerText = this.title
                 return el
             }
         }).mount('#app')
-        console.log('*****',div.childNodes[0].innerText)
-        expect(div.childNodes[0].innerText).toBe('hello')
-    })
-})
+
+        expect(document.body.children[0].id).toBe('app')
+    });
+
+    test('should support setup option and data exist at the same time', () => {
+        let container = document.createElement('div')
+        createApp({
+            data() {
+                return {
+                    title2: 'mini-vue, hello'
+                }
+            },
+            setup() {
+                return {
+                    title1: 'hello, mini-vue!'
+                }
+            },
+            render() {
+                const el = document.createElement('div')
+                el.innerText = this.title
+                return el
+            }
+        }).mount('#app')
+        expect(document.body.children[0].id).toBe('app')
+    });
+
+
+    test('mount() should render text node to host', () => {
+        const container = document.createElement('div')
+        createApp({
+            data() {
+                return {
+                    title: 'hello, mini-vue!'
+                }
+            },
+            render() {
+                const node = document.createTextNode(this.title)
+                return node
+            }
+        }).mount(container)
+        expect(container.innerHTML).toBe('hello, mini-vue!')
+    });
+});
